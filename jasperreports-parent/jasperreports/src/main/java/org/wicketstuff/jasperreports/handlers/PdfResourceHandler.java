@@ -20,7 +20,7 @@ package org.wicketstuff.jasperreports.handlers;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.pdf.JRPdfExporter;
 
 /**
  * @author cdeal

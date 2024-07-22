@@ -29,15 +29,15 @@ import javax.imageio.ImageWriter;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.SimpleReportContext;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 
+import net.sf.jasperreports.export.*;
 import org.apache.wicket.WicketRuntimeException;
 
 /**
- * Resource class for jasper reports PDF resources.
+ * Resource class for jasper reports Image resources.
  * 
  * @author Eelco Hillenius
  */
@@ -122,17 +122,21 @@ public final class JRImageResource extends JRResource
 	protected byte[] getExporterData(JasperPrint print, JRAbstractExporter exporter)
 		throws JRException
 	{
+		SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
+		configuration.setZoomRatio(zoomRatio);
+		exporter.setConfiguration(configuration);
+
 		// prepare a stream to trap the exporter's output
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
 		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
 
+		SimpleReportContext reportContext = new SimpleReportContext();
 		// create an image object
 		int width = (int)(print.getPageWidth() * getZoomRatio());
 		int height = (int)(print.getPageHeight() * getZoomRatio());
 		BufferedImage image = new BufferedImage(width, height, type);
-		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, image.getGraphics());
-		exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(zoomRatio));
+		reportContext.setParameterValue(JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY, image.getGraphics());
 
 		// execute the export and return the trapped result
 		exporter.exportReport();

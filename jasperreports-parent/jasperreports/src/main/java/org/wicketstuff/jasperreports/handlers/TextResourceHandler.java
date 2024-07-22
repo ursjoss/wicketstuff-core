@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.export.JRTextExporter;
-import net.sf.jasperreports.engine.export.JRTextExporterParameter;
+import net.sf.jasperreports.export.SimpleTextReportConfiguration;
 
 /**
  * @author cdeal
@@ -87,9 +87,12 @@ public class TextResourceHandler implements IJRResourceHandler, Serializable
 	 */
 	public JRAbstractExporter newExporter()
 	{
+		SimpleTextReportConfiguration configuration = new SimpleTextReportConfiguration();
+		configuration.setPageWidthInChars(Integer.valueOf(pageWidth));
+		configuration.setPageHeightInChars(Integer.valueOf(pageHeight));
+
 		JRTextExporter exporter = new JRTextExporter();
-		exporter.setParameter(JRTextExporterParameter.PAGE_WIDTH, Integer.valueOf(pageWidth));
-		exporter.setParameter(JRTextExporterParameter.PAGE_HEIGHT, Integer.valueOf(pageHeight));
+		exporter.setConfiguration(configuration);
 		return exporter;
 	}
 

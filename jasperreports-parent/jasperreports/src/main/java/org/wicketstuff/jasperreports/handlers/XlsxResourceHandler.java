@@ -1,14 +1,14 @@
 /*
  * $Id: XlsResourceHandler.java 5335 2010-06-14 13:28:39Z cdeal $ $Revision:
  * 1.4 $ $Date: 2010-06-14 09:28:39 -0400 (Mon, 14 Jun 2010) $
- *
+ * 
  * ==============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,10 +17,39 @@
  */
 package org.wicketstuff.jasperreports.handlers;
 
+import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+
+import java.io.Serializable;
+
 /**
  * @author cdeal
- * @deprecated Use XlsxResourceHandler instead.
  */
-@Deprecated()
-public class XlsResourceHandler extends XlsxResourceHandler {
+public class XlsxResourceHandler implements IJRResourceHandler, Serializable
+{
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see IJRResourceHandler#newExporter()
+	 */
+	public JRAbstractExporter newExporter()
+	{
+		return new JRXlsxExporter();
+	}
+
+	/**
+	 * @see IJRResourceHandler#getContentType()
+	 */
+	public String getContentType()
+	{
+		return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+	}
+
+	/**
+	 * @see IJRResourceHandler#getExtension()
+	 */
+	public String getExtension()
+	{
+		return "xlsx";
+	}
 }
